@@ -1,0 +1,25 @@
+-- Silver layer: Cleaned and deduplicated articles
+-- Purpose: Trusted data ready for analysis
+
+CREATE TABLE IF NOT EXISTS silver.clean_articles (
+    id SERIAL PRIMARY KEY,
+    source VARCHAR(255),
+    author VARCHAR(255),
+    title TEXT NOT NULL,
+    description TEXT,
+    content TEXT,
+    url TEXT NOT NULL UNIQUE,
+    "publishedAt" VARCHAR(50),
+    category VARCHAR(100),
+    word_count INTEGER,
+    processed_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create index on URL (primary lookup key)
+CREATE INDEX IF NOT EXISTS idx_silver_url ON silver.clean_articles(url);
+
+-- Create index on source for filtering
+CREATE INDEX IF NOT EXISTS idx_silver_source ON silver.clean_articles(source);
+
+-- Verify table created
+SELECT * FROM information_schema.tables WHERE table_schema = 'silver';

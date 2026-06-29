@@ -1,0 +1,23 @@
+-- Bronze layer: Raw articles table
+-- Purpose: Store raw data from NewsAPI as-is
+
+CREATE TABLE IF NOT EXISTS bronze.raw_articles (
+    id SERIAL PRIMARY KEY,
+    source VARCHAR(255),
+    author VARCHAR(255),
+    title TEXT,
+    description TEXT,
+    content TEXT,
+    url TEXT,
+    "publishedAt" VARCHAR(50),
+    category VARCHAR(100),
+    ingestion_timestamp VARCHAR(50),
+    raw_response TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create index on URL for faster lookups
+CREATE INDEX IF NOT EXISTS idx_bronze_url ON bronze.raw_articles(url);
+
+-- Verify table created
+SELECT * FROM information_schema.tables WHERE table_schema = 'bronze';

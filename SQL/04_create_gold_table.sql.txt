@@ -1,0 +1,28 @@
+-- Gold layer: Scored, analytics-ready data
+-- Purpose: Final data ready for dashboards and BI tools
+
+CREATE TABLE IF NOT EXISTS gold.fake_news_results (
+    id SERIAL PRIMARY KEY,
+    silver_id TEXT,
+    title TEXT,
+    source VARCHAR(255),
+    category VARCHAR(100),
+    published_at VARCHAR(50),
+    url TEXT,
+    fake_score NUMERIC(5,2),
+    is_fake BOOLEAN,
+    confidence_level VARCHAR(20),
+    detection_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create index on fake_score for filtering
+CREATE INDEX IF NOT EXISTS idx_gold_fake_score ON gold.fake_news_results(fake_score);
+
+-- Create index on is_fake for binary filtering
+CREATE INDEX IF NOT EXISTS idx_gold_is_fake ON gold.fake_news_results(is_fake);
+
+-- Create index on source for grouping
+CREATE INDEX IF NOT EXISTS idx_gold_source ON gold.fake_news_results(source);
+
+-- Verify table created
+SELECT * FROM information_schema.tables WHERE table_schema = 'gold';
