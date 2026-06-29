@@ -1,0 +1,61 @@
+# Quick Start (2 minutes)
+
+Get the pipeline running in **under 5 minutes**!
+
+---
+
+## Prerequisites
+- PostgreSQL installed
+- Talend Open Studio installed
+- NewsAPI key (free from newsapi.org)
+
+---
+
+## Setup
+
+### 1. Clone & Navigate
+```bash
+git clone https://github.com/citoyenu/fake-news-detection-pipeline.git
+cd fake-news-detection-pipeline
+```
+
+### 2. Create Database
+```bash
+psql -U postgres -f SQL/01_create_schemas.sql
+psql -U postgres -f SQL/02_create_bronze_table.sql
+psql -U postgres -f SQL/03_create_silver_table.sql
+psql -U postgres -f SQL/04_create_gold_table.sql
+```
+
+### 3. Configure Talend
+- Import project in Talend
+- Create context with your API key & DB credentials
+- Create PostgreSQL connection
+
+### 4. Run Pipeline
+Right-click JOB_MASTER_Orchestrator
+
+→ Run as → Talend Run
+**Expected:** "Code de sortie = 0" ✅
+
+---
+
+## Verify
+```bash
+psql -U postgres -d fake_news_db -c "SELECT COUNT(*) FROM gold.fake_news_results;"
+```
+
+Should return: **~60 rows**
+
+---
+
+## 📊 What You Get
+- 70+ raw articles (Bronze)
+- 60 cleaned articles (Silver)  
+- 60 scored articles (Gold)
+- Complete audit trail
+
+---
+
+**For detailed setup:** See SETUP.md  
+**For architecture:** See ARCHITECTURE.md
